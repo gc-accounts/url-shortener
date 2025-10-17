@@ -39,7 +39,7 @@ const LinkCard = ({url = [], fetchUrls}) => {
             {url?.title}
           </h3>
           <p className="text-lg text-blue-400 font-semibold hover:underline cursor-pointer break-words">
-            https://url-shortener-pi-hazel.vercel.app/
+            https://link.odinschool.com/
             {url?.custom_url ? url?.custom_url : url.short_url}
           </p>
           <p className="flex items-start gap-1 text-gray-300 hover:underline cursor-pointer break-words">
@@ -59,7 +59,7 @@ const LinkCard = ({url = [], fetchUrls}) => {
           size="sm"
           onClick={() =>
             navigator.clipboard.writeText(
-              `https://url-shortener-pi-hazel.vercel.app/${url?.short_url}`
+              `https://link.odinschool.com/${url?.short_url}`
             )
           }
           className="h-10 w-10 p-0"

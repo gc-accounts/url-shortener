@@ -256,7 +256,7 @@ export function CreateLink() {
 
           {/* Custom URL Field */}
           <div className="flex items-center gap-2">
-            <Card className="p-2">https://url-shortener-pi-hazel.vercel.app</Card> /
+            <Card className="p-2">https://link.odinschool.com</Card> /
             <Input
               id="customUrl"
               name="customUrl"

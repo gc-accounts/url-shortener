@@ -72,12 +72,12 @@ const LinkPage = () => {
           </h1>
           
           <a
-            href={`https://url-shortener-pi-hazel.vercel.app/${link}`}
+            href={`https://link.odinschool.com/${link}`}
             target="_blank"
             rel="noopener noreferrer"
             className="text-xl sm:text-2xl text-blue-400 font-bold hover:underline cursor-pointer break-words w-full"
           >
-            https://url-shortener-pi-hazel.vercel.app/{link}
+            https://link.odinschool.com/{link}
           </a>
           
           {/* Fixed URL section - prevents horizontal scroll */}
@@ -104,7 +104,7 @@ const LinkPage = () => {
               variant="ghost"
               size="sm"
               onClick={() =>
-                navigator.clipboard.writeText(`https://url-shortener-pi-hazel.vercel.app/${link}`)
+                navigator.clipboard.writeText(`https://link.odinschool.com/${link}`)
               }
             >
               <Copy className="h-4 w-4" />
