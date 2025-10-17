@@ -9,65 +9,83 @@ import {BeatLoader} from "react-spinners";
 const LinkCard = ({url = [], fetchUrls}) => {
   const downloadImage = () => {
     const imageUrl = url?.qr;
-    const fileName = url?.title; // Desired file name for the downloaded image
+    const fileName = url?.title;
 
-    // Create an anchor element
     const anchor = document.createElement("a");
     anchor.href = imageUrl;
     anchor.download = fileName;
-
-    // Append the anchor to the body
     document.body.appendChild(anchor);
-
-    // Trigger the download by simulating a click event
     anchor.click();
-
-    // Remove the anchor from the document
     document.body.removeChild(anchor);
   };
 
   const {loading: loadingDelete, fn: fnDelete} = useFetch(deleteUrl, url.id);
 
   return (
-    <div className="flex flex-col md:flex-row gap-5 border p-4 bg-gray-900 rounded-lg">
-      <img
-        src={url?.qr}
-        className="h-32 object-contain ring ring-blue-500 self-start"
-        alt="qr code"
-      />
-      <Link to={`/link/${url?.id}`} className="flex flex-col flex-1">
-        <span className="text-3xl font-extrabold hover:underline cursor-pointer">
-          {url?.title}
-        </span>
-        <span className="text-2xl text-blue-400 font-bold hover:underline cursor-pointer">
-          https://url-shortener-pi-hazel.vercel.app/{url?.custom_url ? url?.custom_url : url.short_url}
-        </span>
-        <span className="flex items-center gap-1 hover:underline cursor-pointer">
-          <LinkIcon className="p-1" />
-          {url?.original_url}
-        </span>
-        <span className="flex items-end font-extralight text-sm flex-1">
-          {new Date(url?.created_at).toLocaleString()}
-        </span>
-      </Link>
-      <div className="flex gap-2">
+    <div className="flex flex-col md:flex-row gap-4 border p-4 bg-gray-900 rounded-lg w-full">
+      {/* QR Code - Fixed size and proper alignment */}
+      <div className="flex-shrink-0 self-center md:self-start">
+        <img
+          src={url?.qr}
+          className="h-28 w-28 object-contain ring-2 ring-blue-500 rounded"
+          alt="qr code"
+        />
+      </div>
+
+      {/* URL Details - Takes remaining space */}
+      <div className="flex-1 min-w-0"> {/* min-w-0 prevents overflow */}
+        <Link to={`/link/${url?.id}`} className="block space-y-2">
+          <h3 className="text-xl font-bold hover:underline cursor-pointer truncate">
+            {url?.title}
+          </h3>
+          <p className="text-lg text-blue-400 font-semibold hover:underline cursor-pointer break-words">
+            https://url-shortener-pi-hazel.vercel.app/
+            {url?.custom_url ? url?.custom_url : url.short_url}
+          </p>
+          <p className="flex items-start gap-1 text-gray-300 hover:underline cursor-pointer break-words">
+            <LinkIcon className="h-4 w-4 mt-1 flex-shrink-0" />
+            <span className="break-all">{url?.original_url}</span>
+          </p>
+          <p className="text-sm text-gray-400">
+            {new Date(url?.created_at).toLocaleString()}
+          </p>
+        </Link>
+      </div>
+
+      {/* Action Buttons - Properly aligned */}
+      <div className="flex md:flex-col gap-2 justify-center md:justify-start">
         <Button
           variant="ghost"
+          size="sm"
           onClick={() =>
-            navigator.clipboard.writeText(`https://url-shortener-pi-hazel.vercel.app/${url?.short_url}`)
+            navigator.clipboard.writeText(
+              `https://url-shortener-pi-hazel.vercel.app/${url?.short_url}`
+            )
           }
+          className="h-10 w-10 p-0"
         >
-          <Copy />
+          <Copy className="h-4 w-4" />
         </Button>
-        <Button variant="ghost" onClick={downloadImage}>
-          <Download />
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          onClick={downloadImage}
+          className="h-10 w-10 p-0"
+        >
+          <Download className="h-4 w-4" />
         </Button>
         <Button
           variant="ghost"
+          size="sm"
           onClick={() => fnDelete().then(() => fetchUrls())}
-          disable={loadingDelete}
+          disabled={loadingDelete}
+          className="h-10 w-10 p-0"
         >
-          {loadingDelete ? <BeatLoader size={5} color="white" /> : <Trash />}
+          {loadingDelete ? (
+            <BeatLoader size={3} color="white" />
+          ) : (
+            <Trash className="h-4 w-4" />
+          )}
         </Button>
       </div>
     </div>

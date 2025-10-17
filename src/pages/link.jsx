@@ -16,20 +16,14 @@ const LinkPage = () => {
     const imageUrl = url?.qr;
     const fileName = url?.title;
 
-    // Create an anchor element
     const anchor = document.createElement("a");
     anchor.href = imageUrl;
     anchor.download = fileName;
-
-    // Append the anchor to the body
     document.body.appendChild(anchor);
-
-    // Trigger the download by simulating a click event
     anchor.click();
-
-    // Remove the anchor from the document
     document.body.removeChild(anchor);
   };
+  
   const navigate = useNavigate();
   const {user} = UrlState();
   const {id} = useParams();
@@ -71,66 +65,82 @@ const LinkPage = () => {
         <BarLoader className="mb-4" width={"100%"} color="#36d7b7" />
       )}
       <div className="flex flex-col gap-8 sm:flex-row justify-between">
-        <div className="flex flex-col items-start gap-8 rounded-lg sm:w-2/5">
-          <span className="text-6xl font-extrabold hover:underline cursor-pointer">
+        {/* Left Section - URL Details */}
+        <div className="flex flex-col items-start gap-6 rounded-lg sm:w-2/5">
+          <h1 className="text-4xl sm:text-5xl font-extrabold hover:underline cursor-pointer break-words">
             {url?.title}
-          </span>
+          </h1>
+          
           <a
             href={`https://url-shortener-pi-hazel.vercel.app/${link}`}
             target="_blank"
-            className="text-3xl sm:text-4xl text-blue-400 font-bold hover:underline cursor-pointer"
+            rel="noopener noreferrer"
+            className="text-xl sm:text-2xl text-blue-400 font-bold hover:underline cursor-pointer break-words w-full"
           >
             https://url-shortener-pi-hazel.vercel.app/{link}
           </a>
-          <a
-            href={url?.original_url}
-            target="_blank"
-            className="flex items-center gap-1 hover:underline cursor-pointer"
-          >
-            <LinkIcon className="p-1" />
-            {url?.original_url}
-          </a>
-          <span className="flex items-end font-extralight text-sm">
+          
+          {/* Fixed URL section - prevents horizontal scroll */}
+          <div className="w-full">
+            <a
+              href={url?.original_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-start gap-2 hover:underline cursor-pointer group w-full"
+            >
+              <LinkIcon className="h-5 w-5 mt-1 flex-shrink-0" />
+              <span className="text-gray-300 break-all text-sm sm:text-base">
+                {url?.original_url}
+              </span>
+            </a>
+          </div>
+
+          <span className="text-sm text-gray-400">
             {new Date(url?.created_at).toLocaleString()}
           </span>
+          
           <div className="flex gap-2">
             <Button
               variant="ghost"
+              size="sm"
               onClick={() =>
                 navigator.clipboard.writeText(`https://url-shortener-pi-hazel.vercel.app/${link}`)
               }
             >
-              <Copy />
+              <Copy className="h-4 w-4" />
             </Button>
-            <Button variant="ghost" onClick={downloadImage}>
-              <Download />
+            <Button variant="ghost" size="sm" onClick={downloadImage}>
+              <Download className="h-4 w-4" />
             </Button>
             <Button
               variant="ghost"
+              size="sm"
               onClick={() =>
                 fnDelete().then(() => {
                   navigate("/dashboard");
                 })
               }
-              disable={loadingDelete}
+              disabled={loadingDelete}
             >
               {loadingDelete ? (
                 <BeatLoader size={5} color="white" />
               ) : (
-                <Trash />
+                <Trash className="h-4 w-4" />
               )}
             </Button>
           </div>
+          
           <img
             src={url?.qr}
-            className="w-full self-center sm:self-start ring ring-blue-500 p-1 object-contain"
+            className="w-full max-w-xs self-center sm:self-start ring-2 ring-blue-500 p-2 rounded object-contain"
             alt="qr code"
           />
         </div>
 
+        {/* Right Section - Stats */}
         <Card className="sm:w-3/5">
           <CardHeader>
-            <CardTitle className="text-4xl font-extrabold">Stats</CardTitle>
+            <CardTitle className="text-2xl sm:text-3xl font-extrabold">Stats</CardTitle>
           </CardHeader>
           {stats && stats.length ? (
             <CardContent className="flex flex-col gap-6">
@@ -139,13 +149,13 @@ const LinkPage = () => {
                   <CardTitle>Total Clicks</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p>{stats?.length}</p>
+                  <p className="text-2xl font-bold">{stats?.length}</p>
                 </CardContent>
               </Card>
 
-              <CardTitle>Location Data</CardTitle>
+              <CardTitle className="text-xl">Location Data</CardTitle>
               <Location stats={stats} />
-              <CardTitle>Device Info</CardTitle>
+              <CardTitle className="text-xl">Device Info</CardTitle>
               <DeviceStats stats={stats} />
             </CardContent>
           ) : (
