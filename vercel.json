@@ -1,0 +1,20 @@
+{
+  "rewrites": [
+    {
+      "source": "/:id",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/auth",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/dashboard",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/link/:id",
+      "destination": "/index.html"
+    }
+  ]
+}
