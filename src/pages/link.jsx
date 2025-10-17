@@ -76,11 +76,11 @@ const LinkPage = () => {
             {url?.title}
           </span>
           <a
-            href={`http://localhost:5173/${link}`}
+            href={`https://url-shortener-pi-hazel.vercel.app/${link}`}
             target="_blank"
             className="text-3xl sm:text-4xl text-blue-400 font-bold hover:underline cursor-pointer"
           >
-            http://localhost:5173/{link}
+            https://url-shortener-pi-hazel.vercel.app/{link}
           </a>
           <a
             href={url?.original_url}
@@ -97,7 +97,7 @@ const LinkPage = () => {
             <Button
               variant="ghost"
               onClick={() =>
-                navigator.clipboard.writeText(`http://localhost:5173/${link}`)
+                navigator.clipboard.writeText(`https://url-shortener-pi-hazel.vercel.app/${link}`)
               }
             >
               <Copy />
