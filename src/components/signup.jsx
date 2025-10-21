@@ -159,13 +159,13 @@ const Signup = () => {
           <div className="text-center py-4">
             <p className="text-lg mb-4">🎉 Account created successfully!</p>
             <p>Please check your email to confirm your account.</p>
-            <Button 
+            {/* <Button 
               onClick={() => navigate('/auth')} 
               className="mt-4"
               variant="outline"
             >
               Back to Login
-            </Button>
+            </Button> */}
           </div>
         </CardContent>
       )}
