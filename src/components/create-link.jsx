@@ -35,7 +35,7 @@ export function CreateLink() {
     customUrl: "",
     campaignId: "",
     source: "",
-    utmSource: "",
+    // utmSource: "",
     medium: "",
     campaignName: "",
     term: "",
@@ -51,7 +51,7 @@ export function CreateLink() {
 
       // Add all UTM fields only if not empty
       if (formValues.source) params.set('utm_source', formValues.source);
-      if (formValues.utmSource.trim()) params.set('utm_custom_source', formValues.utmSource.trim());
+      // if (formValues.utmSource.trim()) params.set('utm_custom_source', formValues.utmSource.trim());
       if (formValues.medium) params.set('utm_medium', formValues.medium);
       if (formValues.campaignName) params.set('utm_campaign', formValues.campaignName);
       if (formValues.campaignId) params.set('utm_id', formValues.campaignId);
@@ -74,7 +74,7 @@ export function CreateLink() {
     customUrl: yup.string(),
     campaignId: yup.string(),
     source: yup.string(),
-    utmSource: yup.string(),
+    // utmSource: yup.string(),
     medium: yup.string(),
     campaignName: yup.string(),
     term: yup.string(),
@@ -191,14 +191,14 @@ export function CreateLink() {
             />
           </div>
 
-          <div className="space-y-2">
+          {/* <div className="space-y-2">
             <Input
               name="utmSource"
               placeholder="UTM Source (Custom)"
               value={formValues.utmSource}
               onChange={handleChange}
             />
-          </div>
+          </div> */}
 
           <div className="space-y-2">
             <label className="text-sm font-medium">Campaign Medium (Original Traffic Source Drill Down 1)</label>
