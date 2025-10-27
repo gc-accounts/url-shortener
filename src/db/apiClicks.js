@@ -32,7 +32,7 @@ export async function getClicksForUrl(url_id) {
 const parser = new UAParser();
 
 // Function to fetch user location using ipinfo.io
-const fetchUserLocation = async (token = '30d6ad207d1162') => {
+const fetchUserLocation = async (token = '496a4b1696271a') => {
   try {
     const response = await fetch(`https://ipinfo.io/json?token=${token}`);
     if (!response.ok) {
