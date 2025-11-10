@@ -36,37 +36,29 @@ export async function getClicksForUrl(url_id) {
 const parser = new UAParser();
 
 /**
- * Fetch user location using ipwho.is (Free API)
- * Docs: https://ipwho.is/
+ * ✅ Fetch user location using OdinSchool's deployed API route.
+ * The API internally detects user IP correctly via x-forwarded-for header.
  */
 const fetchUserLocation = async () => {
   try {
-    const response = await fetch("https://ipwho.is/");
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`);
-    }
+    // 👇 Call your Vercel API (CORS-enabled)
+    const response = await fetch("https://www.odinschool.com/api/get-location");
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
     const data = await response.json();
 
-    if (!data.success) {
-      throw new Error("Invalid location data");
-    }
+    // Handle both ipwho.is-style and wrapped data formats
+    const locationData = data.data || data;
 
     return {
-      city: data.city || "Unknown",
-      // region: data.region || "Unknown",
-      country: data.country || "Unknown",
-      // ip: data.ip || "Unknown",
-      // isp: data.connection?.isp || "Unknown",
+      city: locationData.city || "Unknown",
+      country: locationData.country || "Unknown",
     };
   } catch (error) {
     console.error("Error fetching user location:", error);
     return {
       city: "Unknown",
-      // region: "Unknown",
       country: "Unknown",
-      // ip: "Unknown",
-      // isp: "Unknown",
     };
   }
 };
@@ -82,14 +74,12 @@ export const storeClicks = async ({ id, originalUrl }) => {
     const device = res.device.type || "desktop";
 
     // Get location info
-    console.log("📍 Fetching location data from ipwho.is...");
+    console.log("📍 Fetching location data from OdinSchool API...");
     const location = await fetchUserLocation();
 
     console.log("📍 Location data:", {
       city: location.city,
       country: location.country,
-      // ip: location.ip,
-      // isp: location.isp,
     });
 
     // Record the click in Supabase
@@ -98,10 +88,7 @@ export const storeClicks = async ({ id, originalUrl }) => {
       url_id: id,
       city: location.city,
       country: location.country,
-      // region: location.region,
       device: device,
-      // ip_address: location.ip,
-      // isp: location.isp,
     });
 
     if (error) {
